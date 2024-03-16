@@ -7,7 +7,7 @@ This is the Python SDK for Layerup Security, an end-to-end Application Security 
 To use this library, first, ensure you have Python installed on your system. Then, clone this repository and install:
 
 ```
-pip install .
+pip install LayerupSecurity
 ```
 
 ### API Key
