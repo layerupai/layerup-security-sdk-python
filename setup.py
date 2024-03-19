@@ -2,11 +2,11 @@ from setuptools import setup, find_packages
 
 setup(
     name='LayerupSecurity',
-    version='1.0.0',
+    version='1.0.1',
     author='Layerup',
     author_email='pypi@uselayerup.com',
     description='A Python wrapper for the Layerup Security API.',
-    long_description=open('../README.md').read(),
+    long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     url='https://github.com/layerupai/layerup-security-sdk-python',
     packages=find_packages(),

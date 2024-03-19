@@ -1,3 +1,4 @@
 layerup_security/__pycache__
-layerup_security/LayerupSecurity.egg-info
-layerup_security/dist
+LayerupSecurity.egg-info
+dist
+build
