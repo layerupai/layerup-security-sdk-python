@@ -113,9 +113,9 @@ except Exception as error:
     layerup.log_error(str(error), messages)
 ```
 
-### Execute Rules
+### Execute Guardrails
 
-Execute pre-defined rules that allow you to send canned responses when a user prompts in a certain way, adding yet another layer of protection to your LLM calls.
+Execute pre-defined guardrails that allow you to send canned responses when a user prompts in a certain way, adding yet another layer of protection to your LLM calls.
 
 ```python
 messages = [
@@ -124,7 +124,7 @@ messages = [
 ]
 
 # Make the call to Layerup
-security_response = layerup.execute_rules(
+security_response = layerup.execute_guardrails(
     ['layerup.security.prompt.discount'],
     messages
 )
