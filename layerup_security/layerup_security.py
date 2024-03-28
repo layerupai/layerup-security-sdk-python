@@ -16,34 +16,6 @@ class LayerupSecurity:
         """
         self.config = Config(api_key, base_url)
 
-    def intercept_prompt(self, messages, metadata={}):
-        """
-        Intercept unsafe prompts before they are sent to an LLM.
-
-        :param messages: List of messages in the LLM conversation.
-        :param metadata: Optional metadata object for the request.
-        :return: The JSON response from the API call.
-        """
-        url = f"{self.config.base_url}/intercept/prompt"
-        headers = {"Layerup-API-Key": self.config.api_key, "Content-Type": "application/json"}
-        data = {"messages": messages, "metadata": metadata}
-
-        return make_api_call(url, method='POST', headers=headers, data=data)
-
-    def intercept_response(self, messages, metadata={}):
-        """
-        Intercept unsafe LLM responses before they get to your users.
-
-        :param messages: List of messages in the LLM conversation.
-        :param metadata: Optional metadata object for the request.
-        :return: The JSON response from the API call.
-        """
-        url = f"{self.config.base_url}/intercept/response"
-        headers = {"Layerup-API-Key": self.config.api_key, "Content-Type": "application/json"}
-        data = {"messages": messages, "metadata": metadata}
-
-        return make_api_call(url, method='POST', headers=headers, data=data)
-
     def mask_prompt(self, messages, metadata={}):
         """
         Mask sensitive information in your prompts before sending them to an LLM.
@@ -110,7 +82,7 @@ class LayerupSecurity:
 
     def execute_guardrails(self, guardrails, messages, metadata={}):
         """
-        Execute pre-defined guardrails that allow you to send canned responses when a user prompts in a certain way, adding yet another layer of protection to your LLM calls.
+        Execute pre-defined guardrails that allow you to send canned responses when a user prompts in a certain way, adding a layer of protection to your LLM calls.
 
         :param guardrails: List of guardrail names to execute.
         :param messages: List of messages in the LLM conversation.

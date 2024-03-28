@@ -21,52 +21,31 @@ from layerup import LayerupSecurity
 layerup = LayerupSecurity(api_key=os.getenv('LAYERUP_API_KEY'))
 ```
 
-### Intercept Prompts
+### Execute Guardrails
 
-Intercept unsafe prompts before they are sent to an LLM.
+Execute pre-defined guardrails that allow you to send canned responses when a user prompts in a certain way, adding a layer of protection to your LLM calls.
 
 ```python
 messages = [
-    {'role': 'system', 'content': 'You are Jedi master Yoda.'},
-    {'role': 'user', 'content': "Anakin's social security number is 123-45-6789."},
+    { 'role': 'system', 'content': 'You answer questions about your fictional company.' },
+    { 'role': 'user', 'content': 'Can I get a 15% discount?' },
 ]
 
 # Make the call to Layerup
-security_response = layerup.intercept_prompt(messages)
+security_response = layerup.execute_guardrails(
+    ['layerup.security.prompt.discount'],
+    messages
+)
 
 if not security_response['all_safe']:
-    raise Exception('Unsafe prompt provided. Aborting...')
+    # Use canned response for your LLM call
+    print(security_response['canned_response'])
 else:
+    # Continue with your LLM call
     result = openai.ChatCompletion.create(
         messages=messages,
         model='gpt-3.5-turbo',
     )
-```
-
-### Intercept Responses
-
-Intercept unsafe LLM responses before they get to your users.
-
-```python
-messages = [
-    {'role': 'system', 'content': 'You are Jedi master Yoda.'},
-    {'role': 'user', 'content': "What is Luke Skywalker's favorite fruit?"},
-]
-
-result = openai.ChatCompletion.create(
-    messages=messages,
-    model='gpt-3.5-turbo',
-)
-messages.append(result['choices'][0]['message'])
-
-# Make the call to Layerup
-security_response = layerup.intercept_response(messages)
-
-if not security_response['all_safe']:
-    raise Exception('Unsafe response received from OpenAI. Aborting...')
-else:
-    print('All safe - continuing...')
-
 ```
 
 ### Mask Prompts
@@ -104,38 +83,11 @@ messages = [
 
 try:
     # Send your request
-    await openai.ChatCompletion.create(
+    openai.ChatCompletion.create(
         messages=messages,
         model='gpt-3.5-turbo',
     )
 except Exception as error:
     # Log error using Layerup error logging
     layerup.log_error(str(error), messages)
-```
-
-### Execute Guardrails
-
-Execute pre-defined guardrails that allow you to send canned responses when a user prompts in a certain way, adding yet another layer of protection to your LLM calls.
-
-```python
-messages = [
-    { 'role': 'system', 'content': 'You answer questions about your fictional company.' },
-    { 'role': 'user', 'content': 'Can I get a 15% discount?' },
-]
-
-# Make the call to Layerup
-security_response = layerup.execute_guardrails(
-    ['layerup.security.prompt.discount'],
-    messages
-)
-
-if not security_response['all_safe']:
-    # Use canned response for your LLM call
-    print(security_response['canned_response'])
-else:
-    # Continue with your LLM call
-    result = openai.ChatCompletion.create(
-        messages=messages,
-        model='gpt-3.5-turbo',
-    )
 ```
