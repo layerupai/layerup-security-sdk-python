@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='LayerupSecurity',
-    version='1.1.1',
+    version='1.2.0',
     author='Layerup',
     author_email='pypi@uselayerup.com',
     description='A Python wrapper for the Layerup Security API.',

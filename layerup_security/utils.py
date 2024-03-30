@@ -26,5 +26,5 @@ def make_api_call(url, method='GET', headers=None, params=None, data=None):
         response.raise_for_status() # Raises a HTTPError if the response status code is 4XX/5XX
         return response.json()
     except requests.exceptions.RequestException as e:
-        print(f"An error occurred while making the API call: {e}")
-        return None
+        error_message = response.json().get('error', e)
+        raise Exception(error_message)
