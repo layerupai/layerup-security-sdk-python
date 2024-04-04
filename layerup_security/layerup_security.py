@@ -80,7 +80,7 @@ class LayerupSecurity:
 
         return make_api_call(url, method='POST', headers=headers, data=data)
 
-    def execute_guardrails(self, guardrails, messages, metadata={}):
+    def execute_guardrails(self, guardrails, messages, untrusted_input=None, metadata={}):
         """
         Execute pre-defined guardrails that allow you to send canned responses when a user prompts in a certain way, adding a layer of protection to your LLM calls.
 
@@ -91,6 +91,6 @@ class LayerupSecurity:
         """
         url = f"{self.config.base_url}/guardrails/execute"
         headers = {"Layerup-API-Key": self.config.api_key, "Content-Type": "application/json"}
-        data = {"guardrails": guardrails, "messages": messages, "metadata": metadata}
+        data = {"guardrails": guardrails, "messages": messages, "untrusted_input": untrusted_input, "metadata": metadata}
 
         return make_api_call(url, method='POST', headers=headers, data=data)
