@@ -94,3 +94,20 @@ class LayerupSecurity:
         data = {"guardrails": guardrails, "messages": messages, "untrusted_input": untrusted_input, "metadata": metadata}
 
         return make_api_call(url, method='POST', headers=headers, data=data)
+
+    def escape_prompt(self, prompt, variables):
+        """
+        Proactively protect your LLM from prompt injection by escaping all prompts that contain untrusted user input.
+
+        :param prompt: String containing your templatized prompt without any untrusted input injected.
+        :param variables: Dictionary containing variable names and their untrusted user input counterparts.
+        """
+        escaped_prompt = prompt
+        for key in variables:
+            start_string = f"<START {key}>"
+            end_string = f"<END {key}>"
+            untrusted_input = variables[key]
+            escaped_input = untrusted_input.replace(start_string, '').replace(end_string, '')
+            variable_replacement = f"\n{start_string}\n{escaped_input}\n{end_string}\n"
+            escaped_prompt = escaped_prompt.replace(f"[%{key}%]", variable_replacement)
+        return escaped_prompt
